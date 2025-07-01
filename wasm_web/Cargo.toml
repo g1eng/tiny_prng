@@ -1,0 +1,23 @@
+[package]
+name = "tiny-prng-wasm"
+version = "0.2.0"
+authors = ["Suzume Nomura <SuzuME@ea.g1e.org>"]
+description = "PRNG in the browser stack"
+edition = "2024"
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[features]
+default = ["console_error_panic_hook"]
+
+[dependencies]
+wasm-bindgen = "0.2.84"
+console_error_panic_hook = { version = "0.1.7", optional = true }
+tiny_prng = { path = "../tiny_prng" }
+
+[dev-dependencies]
+wasm-bindgen-test = "0.3.34"
+
+[profile.release]
+opt-level = "s"

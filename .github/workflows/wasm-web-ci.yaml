@@ -1,0 +1,22 @@
+name: Wasm CI
+
+on:
+  push:
+    branches:
+      - main
+      - dev
+jobs:
+  build-and-publish-npm-package:
+    runs-on: ubuntu-latest
+    env:
+      CARGO_TERM_COLOR: always
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install nightly Rust
+        run: rustup update nightly
+      - name: set nightly Rust default
+        run: rustup default nightly
+      - name: Generate code coverage
+        run: sh -c "curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh"
+      - name: build package
+        run: cd wasm_web && wasm-pack build && wasm-pack pack

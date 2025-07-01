@@ -1,0 +1,36 @@
+{
+  "name": "tiny-prng",
+  "version": "0.1.0",
+  "description": "Pseudo random number generators on WASM",
+  "main": "index.js",
+  "scripts": {
+    "build": "webpack --config webpack.config.js",
+    "start": "webpack-dev-server"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/g1eng/tiny_prng.git"
+  },
+  "keywords": [
+    "webassembly",
+    "wasm",
+    "rust"
+  ],
+  "author": "Nomura Suzume",
+  "license": "(MIT OR Apache-2.0)",
+  "bugs": {
+    "url": "https://github.com/g1eng/tiny_prng/issues"
+  },
+  "homepage": "https://github.com/g1eng/tiny_prng",
+  "dependencies": {
+    "tiny-prng": "file:../pkg"
+  },
+  "devDependencies": {
+    "copy-webpack-plugin": "^13.0.0",
+    "css-loader": "^7.1.2",
+    "webpack": "~5.99.9",
+    "webpack-cli": "^6.0.1",
+    "webpack-dev-server": "^5.2.1"
+  },
+  "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e"
+}

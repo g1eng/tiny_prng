@@ -1,0 +1,7 @@
+[package]
+name = "tiny_prng"
+version = "0.2.0"
+edition = "2024"
+description = "Tiny pseudo number generator set (MT, Xorshift and PCG)"
+
+[dependencies]
