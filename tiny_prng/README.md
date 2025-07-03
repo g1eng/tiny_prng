@@ -54,7 +54,7 @@ You can use `tiny_prng` in WASM. Two types of usage patterns are supported.
 * Link the crate and build the code with `wasm32-wasip2` target (and run it with wasmtime and so on.)
 * Call WASM functions from JavaScript code
 
-For web developers who need to generate many pseudo random numbers, we also provide the npm package `tiny-prng`.
+For web developers who need to generate many pseudo random numbers, we also provide the npm package `tiny-prng-wasm`.
 Install it as follows:
 
 ```shell
@@ -105,7 +105,7 @@ Execution environment:
 
 As the simplest web benchmarking environment, you can try the online benchmarking in your browser.
 
-Simply run `make` under the `wasm_web` directory and access to `http://localhost:8080" to do it.
+Simply run `make` under the `wasm_web` directory and open http://localhost:8080.
 
 # Author 
 

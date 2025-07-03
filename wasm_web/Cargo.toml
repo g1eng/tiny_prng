@@ -4,6 +4,7 @@ version = "0.2.1"
 authors = ["Suzume Nomura <SuzuME@ea.g1e.org>"]
 description = "PRNG in the browser stack"
 edition = "2024"
+license = "MIT OR Apache-2.0"
 
 [lib]
 crate-type = ["cdylib", "rlib"]
