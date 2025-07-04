@@ -17,7 +17,7 @@ This crate provides common psuedo random number generators written in pure Rust,
 
 This library is written in Rust but you can use it from JavaScript via its WASM binary!
 
-For web developers who need to generate many pseudo random numbers, we also provide the npm package `tiny-prng`.
+For web developers who need to generate many pseudo random numbers, we also provide the npm package `tiny-prng-wasm`.
 Install it as follows:
 
 ```shell
@@ -68,4 +68,8 @@ Execution environment:
 
 As the simplest web benchmarking environment, you can try the online benchmarking in your browser.
 
-Simply run `make` under the `wasm_web` directory and access to `http://localhost:8080" to do it.
+Simply run `make` under the `wasm_web` directory and open http://localhost:8080.
+
+# Author
+
+Nomura Suzume <SuzuME[at]ea.g1e．org>

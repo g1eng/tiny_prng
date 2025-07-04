@@ -17,7 +17,7 @@
     "rust"
   ],
   "author": "Nomura Suzume",
-  "license": "(MIT OR Apache-2.0)",
+  "license": "MIT OR Apache-2.0",
   "bugs": {
     "url": "https://github.com/g1eng/tiny_prng/issues"
   },
