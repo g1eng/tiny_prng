@@ -7,10 +7,7 @@ build:
 	cp -rv pkg/ $(inp);
 serve:
 	cd www && yarn install && yarn start
-watch:
-	sh -c "while inotifywait -e modify src/*; do make build ; echo >> www/dist/bootstrap.js; done &"
-	cd www && yarn install && yarn start
 test:
 	wasm-pack test --headless --firefox
 clean:
-	test -d pkg && rm -rv pkg || :
+	test -d pkg && rm -rv pkg www/node_modules/tiny-prng www/node_modules/tiny-prng-wasm || :

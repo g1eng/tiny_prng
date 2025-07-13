@@ -23,7 +23,7 @@
   },
   "homepage": "https://github.com/g1eng/tiny_prng",
   "dependencies": {
-    "tiny-prng": "file:../pkg"
+    "tiny-prng-wasm": "file:../pkg"
   },
   "devDependencies": {
     "copy-webpack-plugin": "^13.0.0",
