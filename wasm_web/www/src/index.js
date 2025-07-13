@@ -1,52 +1,58 @@
-import { pcg, mt64, xorshift64 } from "tiny-prng";
+import {Pcg, Mt64, Xorshift64} from "tiny-prng-wasm";
+
+const total_prng_steps = 10 ** 8;
 
 let el = document.getElementById("demo");
-
-el.innerHTML = el.innerHTML + new Date().toLocaleString() + "<br/>"
-
-const prng_count = 10**8;
+el.innerHTML = `<h2>Online benchmarking for ${total_prng_steps / 1000000}M times instructions</h2>`
 
 let now = new Date();
 let before = (now.getSeconds()) * 1000 + now.getMilliseconds()
+now = new Date();
 let after = (now.getSeconds()) * 1000 + now.getMilliseconds()
 let blank_diff = after - before
 
-let a, b, c ;
+let a, b, c;
 let [diff1, diff2, diff3] = [-1, -1, -1];
 
 function generate_with_pcg() {
+    let g = new Pcg(now.getMilliseconds())
     now = new Date();
     before = (now.getSeconds()) * 1000 + now.getMilliseconds()
-    a = pcg(now.getMilliseconds(), prng_count)
+    a = g.generate_list(total_prng_steps)
     now = new Date();
     after = (now.getSeconds()) * 1000 + now.getMilliseconds()
     diff1 = after - before - blank_diff
 }
+
 while (diff1 < 0) {
     generate_with_pcg()
 }
 
 
 function generate_with_mt64() {
+    let g = new Mt64(now.getMilliseconds())
     now = new Date();
     before = (now.getSeconds()) * 1000 + now.getMilliseconds()
-    b = mt64(now.getMilliseconds(), prng_count)
+    b = g.generate_list(total_prng_steps)
     now = new Date();
     after = (now.getSeconds()) * 1000 + now.getMilliseconds()
     diff2 = after - before - blank_diff
 }
+
 while (diff2 < 0) {
     generate_with_mt64()
 }
 
 function generate_with_xorshift() {
+    let g = new Xorshift64(now.getMilliseconds())
     now = new Date();
     before = (now.getSeconds()) * 1000 + now.getMilliseconds()
-    c = xorshift64(now.getMilliseconds(), prng_count)
+    c = g.generate_list(total_prng_steps)
     now = new Date();
     after = (now.getSeconds()) * 1000 + now.getMilliseconds()
     diff3 = after - before - blank_diff
 }
+
 while (diff3 < 0) {
     generate_with_xorshift()
 }
@@ -60,5 +66,4 @@ el.innerHTML += `
 <tr> <td class="col-family">Xorshift</td>         <td>Xorshift64</td>        <td>${diff3}</td> <td>${c[0]} ${c[1]} ${c[2]}</td></tr>
 </tbody>
 </table>`;
-el.innerHTML += new Date().toLocaleString()
 
