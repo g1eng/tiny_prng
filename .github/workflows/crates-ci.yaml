@@ -5,6 +5,7 @@ on:
     branches:
       - main
       - dev
+      - "fix/**"
 jobs:
   test-and-cover:
     runs-on: ubuntu-latest
