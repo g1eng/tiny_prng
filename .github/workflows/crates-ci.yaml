@@ -6,6 +6,7 @@ on:
       - main
       - dev
       - "fix/**"
+      - "feat/**"
 jobs:
   test-and-cover:
     runs-on: ubuntu-latest
