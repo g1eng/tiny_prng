@@ -182,7 +182,21 @@ mod tests {
         };
         assert_eq!(true, diff < acceptable_delta);
     }
-
+    #[test]
+    fn test_xsh_rr6432_real_ranged_average100000() {
+        let mut p = PcgXshRr6432::with_seed(0x817236);
+        let mut sum = 0.0;
+        let max_count = 100000;
+        let acceptable_delta = 2000.0 / 100.0;
+        for _ in 0..max_count {
+            sum += p.generate_real_in_range(-1000.0, 1000.0) / max_count as f64;
+        }
+        let diff = match sum > 0.5 {
+            true => sum - 0.5,
+            false => 0.5 - sum,
+        };
+        assert_eq!(true, diff < acceptable_delta);
+    }
 
     #[test]
     fn test_xsh_rs6432_real1_average100000() {
@@ -208,6 +222,21 @@ mod tests {
         let acceptable_delta = 1.0 / 100.0;
         for _ in 0..max_count {
             sum += p.generate_real_closed() / max_count as f64;
+        }
+        let diff = match sum > 0.5 {
+            true => sum - 0.5,
+            false => 0.5 - sum,
+        };
+        assert_eq!(true, diff < acceptable_delta);
+    }
+    #[test]
+    fn test_xsh_rs6432_real_ranged_average100000() {
+        let mut p = PcgXshRs6432::with_seed(0x817236);
+        let mut sum = 0.0;
+        let max_count = 100000;
+        let acceptable_delta = 2000.0 / 100.0;
+        for _ in 0..max_count {
+            sum += p.generate_real_in_range(-1000.0, 1000.0) / max_count as f64;
         }
         let diff = match sum > 0.5 {
             true => sum - 0.5,
@@ -247,6 +276,22 @@ mod tests {
         };
         assert!(diff < acceptable_delta);
     }
+    #[test]
+    fn test_xsl_rr_real_ranged_average100000() {
+        let mut p = PcgXslRr::with_seed(0x817236);
+        let mut sum = 0.0;
+        let max_count = 100000;
+        let acceptable_delta = 2000.0 / 100.0;
+        for _ in 0..max_count {
+            sum += p.generate_real_in_range(-1000.0, 1000.0) / max_count as f64;
+        }
+        let diff = match sum > 0.5 {
+            true => sum - 0.5,
+            false => 0.5 - sum,
+        };
+        assert_eq!(true, diff < acceptable_delta);
+    }
+
 
     #[bench]
     fn bench_pcgxslrr12864_10mil(b: &mut test::Bencher) {
