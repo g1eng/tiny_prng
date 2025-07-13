@@ -1,6 +1,6 @@
 [package]
 name = "tiny_prng"
-version = "0.2.1"
+version = "0.2.2"
 edition = "2024"
 license = "MIT OR Apache-2.0"
 description = "Tiny pseudo number generator set (MT, Xorshift and PCG)"

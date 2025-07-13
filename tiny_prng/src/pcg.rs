@@ -18,7 +18,7 @@
 //!
 
 use std::ops::{BitAnd, BitOr, Shl, Shr};
-use crate::{generate_real64,generate_real32};
+use crate::{generate_real64, generate_real32};
 
 pub static MULTIPLIER: u64 = 1957840684519283055;
 pub static MULTIPLIER128: u128 = 0x1957840684519283055;
@@ -38,40 +38,45 @@ macro_rules! rotr64 {
     }}
 }
 pub struct PcgXshRr6432 {
-  state: u64,
+    state: u64,
 }
 
 impl PcgXshRr6432 {
-  pub fn with_seed(seed: u64) -> Self {
-    Self { state: seed }
-  }
-  pub fn generate(&mut self) -> u32 {
-      let mut x = self.state;
-    let count = (self.state >> 59) as u32;
-    self.state = x.wrapping_mul(MULTIPLIER)
-        .wrapping_add(INCREMENT);
-    x ^= x >> 18;
-    rotr32!((x>>27) as u32, count)
-  }
+    #[inline]
+    pub fn with_seed(seed: u64) -> Self {
+        Self { state: seed }
+    }
+
+    #[inline]
+    pub fn generate(&mut self) -> u32 {
+        let mut x = self.state;
+        let count = (self.state >> 59) as u32;
+        self.state = x.wrapping_mul(MULTIPLIER)
+            .wrapping_add(INCREMENT);
+        x ^= x >> 18;
+        rotr32!((x>>27) as u32, count)
+    }
     generate_real32!(self);
 }
 
 pub struct PcgXshRs6432 {
-  state: u64,
+    state: u64,
 }
 
 impl PcgXshRs6432 {
-  pub fn with_seed(seed: u64) -> Self {
-    Self { state: seed }
-  }
-  pub fn generate(&mut self) -> u32 {
-      let mut x = self.state;
-    let count = 22 + (self.state >> 61) as u32;
-    self.state = x.wrapping_mul(MULTIPLIER)
-        .wrapping_add(INCREMENT);
-    x ^= x >> 22;
-    (x >> count) as u32
-  }
+    #[inline]
+    pub fn with_seed(seed: u64) -> Self {
+        Self { state: seed }
+    }
+    #[inline]
+    pub fn generate(&mut self) -> u32 {
+        let mut x = self.state;
+        let count = 22 + (self.state >> 61) as u32;
+        self.state = x.wrapping_mul(MULTIPLIER)
+            .wrapping_add(INCREMENT);
+        x ^= x >> 22;
+        (x >> count) as u32
+    }
     generate_real32!(self);
 }
 
@@ -85,6 +90,7 @@ impl PcgXslRr {
     pub fn with_seed(seed: u128) -> Self {
         Self { state: seed }
     }
+    #[inline]
     pub fn generate(&mut self) -> u64 {
         let mut x = self.state;
         let count = (self.state >> 122) as u64;

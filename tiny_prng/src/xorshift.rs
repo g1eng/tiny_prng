@@ -17,7 +17,6 @@
 //! }
 //! ```
 
-
 use crate::{generate_real64, generate_real32, generate_real128};
 
 pub struct Xorshift32 {
@@ -25,10 +24,12 @@ pub struct Xorshift32 {
 }
 
 impl Xorshift32 {
+    #[inline]
     pub fn with_seed(seed: u32) -> Self {
         Self { state: seed }
     }
 
+    #[inline]
     pub fn generate(&mut self) -> u32 {
         self.state ^= self.state << 13;
         self.state ^= self.state >> 17;
@@ -43,10 +44,12 @@ pub struct Xorshift64 {
 }
 
 impl Xorshift64 {
+    #[inline]
     pub fn with_seed(seed: u64) -> Self {
         Self { state: seed }
     }
 
+    #[inline]
     pub fn generate(&mut self) -> u64 {
         self.state ^= self.state << 13;
         self.state ^= self.state >> 7;
@@ -61,6 +64,7 @@ pub struct Xorshift128 {
 }
 
 impl Xorshift128 {
+    #[inline]
     pub fn with_seed(seed: u128) -> Self {
         Self {
             state: [
@@ -72,6 +76,7 @@ impl Xorshift128 {
         }
     }
 
+    #[inline]
     pub fn generate(&mut self) -> u128 {
         let mut t: u32 = self.state[3];
         let s: u32 = self.state[0];
@@ -94,9 +99,12 @@ pub struct Xorshift64star {
 }
 
 impl Xorshift64star {
+    #[inline]
     pub fn with_seed(seed: u64) -> Self {
         Self { state: seed }
     }
+
+    #[inline]
     pub fn generate(&mut self) -> u64 {
         self.state ^= self.state >> 12;
         self.state ^= self.state << 25;
@@ -111,12 +119,15 @@ pub struct Xorshift1024star {
     index: usize,
 }
 impl Xorshift1024star {
+    #[inline]
     pub fn with_seed(seed: [u64; 16]) -> Self {
         Self {
             state: seed,
             index: 0,
         }
     }
+
+    #[inline]
     pub fn generate(&mut self) -> u64 {
         let mut index = self.index;
         let s = self.state[index];
@@ -136,8 +147,8 @@ impl Xorshift1024star {
 
     generate_real64!(self);
 }
-mod tests{
-   use super::*;
+mod tests {
+    use super::*;
     #[test]
     fn test_xorshift32() {
         let mut s = Xorshift32::with_seed(1337);
@@ -302,7 +313,7 @@ mod tests{
     #[bench]
     fn bench_xorshift1024_10mil(b: &mut test::Bencher) {
         b.iter(|| {
-            let mut s = Xorshift1024star::with_seed([0x13378593;16]);
+            let mut s = Xorshift1024star::with_seed([0x13378593; 16]);
             let mut v: u64 = 0;
             for _ in 0..10000000usize {
                 v = s.generate();
@@ -310,5 +321,4 @@ mod tests{
             println!("{:x}", v);
         })
     }
-
 }

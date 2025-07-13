@@ -77,13 +77,13 @@ See the benchmarking result for 10 million instructions of pseudo random number 
 ```shell-session
 user@localhost tiny_prng $  cargo bench  | grep -v ignored
 # (output omitted...)
-running 34 tests
-test mt64::tests::bench_mt19937_10mil          ... bench:  26,298,141.70 ns/iter (+/- 2,349,687.12)
-test mt::tests::bench_mt19937_32_10mil         ... bench:  28,526,208.40 ns/iter (+/- 345,140.73)
-test pcg::tests::bench_pcgxshrr6432_10mil      ... bench:   9,377,162.50 ns/iter (+/- 17,100.03)
-test pcg::tests::bench_pcgxslrr12864_10mil     ... bench:  15,629,216.70 ns/iter (+/- 836,248.20)
-test xorshift::tests::bench_xorshift1024_10mil ... bench:  21,973,179.10 ns/iter (+/- 875,331.16)
-test xorshift::tests::bench_xorshift64_10mil   ... bench:  18,755,408.30 ns/iter (+/- 51,057.99)
+running 31 tests
+test mt64::tests::bench_mt19937_10mil          ... bench:   7,660,233.30 ns/iter (+/- 43,981.22)
+test mt::tests::bench_mt19937_32_10mil         ... bench:   9,339,750.10 ns/iter (+/- 415,492.15)
+test pcg::tests::bench_pcgxshrr6432_10mil      ... bench:   9,416,045.80 ns/iter (+/- 589,289.98)
+test pcg::tests::bench_pcgxslrr12864_10mil     ... bench:  15,627,133.30 ns/iter (+/- 260,361.14)
+test xorshift::tests::bench_xorshift1024_10mil ... bench:  23,095,120.80 ns/iter (+/- 7,339,056.80)
+test xorshift::tests::bench_xorshift64_10mil   ... bench:  18,749,149.90 ns/iter (+/- 186,877.62)
 ```
 
 Execution environment:
