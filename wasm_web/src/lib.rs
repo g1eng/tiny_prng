@@ -29,6 +29,34 @@ impl Pcg {
         }
         v
     }
+
+    #[wasm_bindgen(js_name = generate_real)]
+    pub fn generate_real(&mut self) -> f64 {
+        self.generator.generate_real()
+    }
+
+    #[wasm_bindgen(js_name = generate_real_list)]
+    pub fn generate_real_list(&mut self, count: usize) -> Vec<f64> {
+        let mut v = Vec::with_capacity(count);
+        for _ in 0..count {
+            v.push(self.generator.generate_real());
+        }
+        v
+    }
+
+    #[wasm_bindgen(js_name = generate_real_ranged)]
+    pub fn generate_real_ranged(&mut self, min: f64, max: f64) -> f64 {
+        self.generator.generate_real_in_range(min, max)
+    }
+
+    #[wasm_bindgen(js_name = generate_real_ranged_list)]
+    pub fn generate_real_ranged_list(&mut self, min: f64, max: f64, count: usize) -> Vec<f64> {
+        let mut v = Vec::with_capacity(count);
+        for _ in 0..count {
+            v.push(self.generator.generate_real_in_range(min, max));
+        }
+        v
+    }
 }
 
 #[wasm_bindgen(js_name = Xorshift64)]
@@ -55,6 +83,34 @@ impl Xorshift64 {
         let mut v = Vec::with_capacity(count);
         for _ in 0..count {
             v.push(self.generator.generate());
+        }
+        v
+    }
+
+    #[wasm_bindgen(js_name = generate_real)]
+    pub fn generate_real(&mut self) -> f64 {
+        self.generator.generate_real()
+    }
+
+    #[wasm_bindgen(js_name = generate_real_list)]
+    pub fn generate_real_list(&mut self, count: usize) -> Vec<f64> {
+        let mut v = Vec::with_capacity(count);
+        for _ in 0..count {
+            v.push(self.generator.generate_real());
+        }
+        v
+    }
+
+    #[wasm_bindgen(js_name = generate_real_ranged)]
+    pub fn generate_real_ranged(&mut self, min: f64, max: f64) -> f64 {
+        self.generator.generate_real_in_range(min, max)
+    }
+
+    #[wasm_bindgen(js_name = generate_real_ranged_list)]
+    pub fn generate_real_ranged_list(&mut self, min: f64, max: f64, count: usize) -> Vec<f64> {
+        let mut v = Vec::with_capacity(count);
+        for _ in 0..count {
+            v.push(self.generator.generate_real_in_range(min, max));
         }
         v
     }
@@ -87,17 +143,40 @@ impl Mt64 {
         }
         v
     }
+
+    #[wasm_bindgen(js_name = generate_real)]
+    pub fn generate_real(&mut self) -> f64 {
+        self.generator.generate_real()
+    }
+
+    #[wasm_bindgen(js_name = generate_real_list)]
+    pub fn generate_real_list(&mut self, count: usize) -> Vec<f64> {
+        let mut v = Vec::with_capacity(count);
+        for _ in 0..count {
+            v.push(self.generator.generate_real());
+        }
+        v
+    }
+
+    #[wasm_bindgen(js_name = generate_real_ranged)]
+    pub fn generate_real_ranged(&mut self, min: f64, max: f64) -> f64 {
+        self.generator.generate_real_in_range(min, max)
+    }
+
+    #[wasm_bindgen(js_name = generate_real_ranged_list)]
+    pub fn generate_real_ranged_list(&mut self, min: f64, max: f64, count: usize) -> Vec<f64> {
+        let mut v = Vec::with_capacity(count);
+        for _ in 0..count {
+            v.push(self.generator.generate_real_in_range(min, max));
+        }
+        v
+    }
 }
 
 mod tests {
     use super::*;
 
-    #[test]
-    fn test_pcg_list() {
-        let mut p = Pcg::new(5);
-        let v = p.generate_list(10);
-        assert_eq!(v.len(), 10);
-    }
+    // PCG
 
     #[test]
     fn test_pcg() {
@@ -107,6 +186,48 @@ mod tests {
         assert_ne!(a, b);
     }
 
+    #[test]
+    fn test_pcg_list() {
+        let mut p = Pcg::new(5);
+        let v = p.generate_list(10);
+        assert_eq!(v.len(), 10);
+    }
+
+    #[test]
+    fn test_pcg_real() {
+        let mut p = Pcg::new(5);
+        let a = p.generate_real();
+        let b = p.generate_real();
+        assert_ne!(a, b);
+    }
+
+    #[test]
+    fn test_pcg_real_list() {
+        let mut p = Pcg::new(5);
+        let v = p.generate_real_list(10);
+        assert_eq!(v.len(), 10);
+    }
+
+    #[test]
+    fn test_pcg_real_ranged() {
+        let mut p = Pcg::new(5);
+        let v = p.generate_real_ranged(0.0, std::f64::consts::PI);
+        assert!(v > 0.0);
+        assert!(v <= std::f64::consts::PI);
+    }
+
+    #[test]
+    fn test_pcg_real_ranged_list() {
+        let mut p = Pcg::new(5);
+        let v = p.generate_real_ranged_list(0.0, std::f64::consts::PI, 10);
+        assert_eq!(v.len(), 10);
+        for i in 0..v.len() {
+            assert!(v[i] > 0.0);
+            assert!(v[i] <= std::f64::consts::PI);
+        }
+    }
+
+    // Xorshift64
     #[test]
     fn test_xorshift64_list() {
         let mut p = Xorshift64::new(5);
@@ -123,6 +244,40 @@ mod tests {
     }
 
     #[test]
+    fn test_xorshift64_real() {
+        let mut p = Xorshift64::new(5);
+        let a = p.generate_real();
+        let b = p.generate_real();
+        assert_ne!(a, b);
+    }
+
+    #[test]
+    fn test_xorshift64_real_list() {
+        let mut p = Xorshift64::new(5);
+        let v = p.generate_real_list(10);
+        assert_eq!(v.len(), 10);
+    }
+
+    #[test]
+    fn test_xorshift64_real_ranged() {
+        let mut p = Xorshift64::new(5);
+        let v = p.generate_real_ranged(0.0, std::f64::consts::PI);
+        assert!(v > 0.0);
+        assert!(v <= std::f64::consts::PI);
+    }
+
+    #[test]
+    fn test_xorshift64_real_ranged_list() {
+        let mut p = Xorshift64::new(5);
+        let v = p.generate_real_ranged_list(0.0, std::f64::consts::PI, 10);
+        assert_eq!(v.len(), 10);
+        for i in 0..v.len() {
+            assert!(v[i] > 0.0);
+            assert!(v[i] <= std::f64::consts::PI);
+        }
+    }
+
+    #[test]
     fn test_mt64_list() {
         let mut p = Mt64::new(5);
         let v = p.generate_list(10);
@@ -135,5 +290,38 @@ mod tests {
         let a = p.generate();
         let b = p.generate();
         assert_ne!(a, b);
+    }
+    #[test]
+    fn test_mt64_real() {
+        let mut p = Mt64::new(5);
+        let a = p.generate_real();
+        let b = p.generate_real();
+        assert_ne!(a, b);
+    }
+
+    #[test]
+    fn test_mt64_real_list() {
+        let mut p = Mt64::new(5);
+        let v = p.generate_real_list(10);
+        assert_eq!(v.len(), 10);
+    }
+
+    #[test]
+    fn test_mt64_real_ranged() {
+        let mut p = Mt64::new(5);
+        let v = p.generate_real_ranged(0.0, std::f64::consts::PI);
+        assert!(v > 0.0);
+        assert!(v <= std::f64::consts::PI);
+    }
+
+    #[test]
+    fn test_mt64_real_ranged_list() {
+        let mut p = Mt64::new(5);
+        let v = p.generate_real_ranged_list(0.0, std::f64::consts::PI, 10);
+        assert_eq!(v.len(), 10);
+        for i in 0..v.len() {
+            assert!(v[i] > 0.0);
+            assert!(v[i] <= std::f64::consts::PI);
+        }
     }
 }

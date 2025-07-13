@@ -117,7 +117,7 @@ dependencies = [
 
 [[package]]
 name = "tiny-prng-wasm"
-version = "0.2.2"
+version = "0.2.3"
 dependencies = [
  "console_error_panic_hook",
  "tiny_prng",
@@ -127,7 +127,7 @@ dependencies = [
 
 [[package]]
 name = "tiny_prng"
-version = "0.2.2"
+version = "0.2.3"
 
 [[package]]
 name = "unicode-ident"

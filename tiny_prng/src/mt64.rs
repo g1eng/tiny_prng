@@ -133,7 +133,7 @@ mod tests {
         assert_ne!(0x1, mt.generate());
     }
     #[test]
-    fn test_mt64_quality_generate_average100000() {
+    fn test_mt64_mean_generate_average100000() {
         let mut mt = Mt19937::with_array(vec![0x123, 0x234, 0x345, 0x456]);
         let mut sum: u64 = 0;
         let max_count = 100000;
@@ -150,7 +150,7 @@ mod tests {
 
 
     #[test]
-    fn test_quality_genrand_real1_average100000() {
+    fn test_mean_genrand_real1_average100000() {
         let mut mt = Mt19937::with_array(vec![0x123, 0x234, 0x345, 0x456]);
         let mut sum = 0.0;
         let max_count = 100000;
@@ -166,13 +166,29 @@ mod tests {
     }
 
     #[test]
-    fn test_quality_genrand_real2_average100000() {
+    fn test_mean_genrand_real2_average100000() {
         let mut mt = Mt19937::with_array(vec![0x123, 0x234, 0x345, 0x456]);
         let mut sum = 0.0;
         let max_count = 100000;
         let acceptable_delta = 1.0 / 100.0;
         for _ in 0..max_count {
             sum += mt.generate_real_closed() / max_count as f64;
+        }
+        let diff = match sum > 0.5 {
+            true => sum - 0.5,
+            false => 0.5 - sum,
+        };
+        assert_eq!(true, diff < acceptable_delta);
+    }
+
+    #[test]
+    fn test_mean_genrand_real_ranged_average100000() {
+        let mut mt = Mt19937::with_array(vec![0x123, 0x234, 0x345, 0x456]);
+        let mut sum = 0.0;
+        let max_count = 100000;
+        let acceptable_delta = 2000.0 / 100.0;
+        for _ in 0..max_count {
+            sum += mt.generate_real_in_range(-1000.0, 1000.0) / max_count as f64;
         }
         let diff = match sum > 0.5 {
             true => sum - 0.5,

@@ -1,6 +1,6 @@
 [package]
 name = "tiny-prng-wasm"
-version = "0.2.2"
+version = "0.2.3"
 authors = ["Suzume Nomura <SuzuME@ea.g1e.org>"]
 description = "PRNG in the browser stack"
 edition = "2024"
