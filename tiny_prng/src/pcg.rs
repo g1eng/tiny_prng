@@ -88,6 +88,7 @@ impl PcgXslRr6432Mcg {
 }
 
 
+// The generator for PCG-XSH-RS-64/32 with LCG.
 pub struct PcgXshRs6432 {
     state: u64,
 }
@@ -111,6 +112,7 @@ impl PcgXshRs6432 {
 }
 
 
+// The generator for PCG-XSL-RS-128/64 with LCG.
 pub struct PcgXslRr {
     state: u128,
 }
@@ -138,6 +140,7 @@ pub struct PcgXslRrMcg {
     state: u128,
 }
 
+// The generator for PCG-XSL-RR-128/64 with MCG.
 impl PcgXslRrMcg {
     #[inline]
     pub fn with_seed(seed: u128) -> Self {
