@@ -59,6 +59,29 @@ impl PcgXshRr6432 {
     generate_real32!(self);
 }
 
+
+pub struct PcgXslRr6432Mcg {
+    state: u64,
+}
+
+impl PcgXslRr6432Mcg {
+    #[inline]
+    pub fn with_seed(seed: u64) -> Self {
+        Self { state: seed }
+    }
+
+    #[inline]
+    pub fn generate(&mut self) -> u32 {
+        let mut x = self.state;
+        let count = (self.state >> 59) as u32;
+        self.state = x.wrapping_mul(MULTIPLIER);
+        x ^= x >> 18;
+        rotr32!((x>>27) as u32, count)
+    }
+    generate_real32!(self);
+}
+
+
 pub struct PcgXshRs6432 {
     state: u64,
 }
@@ -150,6 +173,22 @@ mod tests {
         };
         assert!(delta < acceptable_delta);
     }
+
+    #[test]
+    fn test_pcg_xsl_rr_mcg() {
+        let mut x = PcgXslRr6432Mcg::with_seed(0x1818729182367349);
+        let acceptable_delta = u32::MAX / 100;
+        let mut sum = 0;
+        for _ in 0..10000 {
+            sum += x.generate() / 10000;
+        }
+        let delta = match sum > u32::MAX / 2 {
+            true => sum - u32::MAX / 2,
+            false => u32::MAX / 2 - sum
+        };
+        assert!(delta < acceptable_delta);
+    }
+
 
     #[test]
     fn test_xsh_rr6432_real1_average100000() {
@@ -279,6 +318,54 @@ mod tests {
     #[test]
     fn test_xsl_rr_real_ranged_average100000() {
         let mut p = PcgXslRr::with_seed(0x817236);
+        let mut sum = 0.0;
+        let max_count = 100000;
+        let acceptable_delta = 2000.0 / 100.0;
+        for _ in 0..max_count {
+            sum += p.generate_real_in_range(-1000.0, 1000.0) / max_count as f64;
+        }
+        let diff = match sum > 0.5 {
+            true => sum - 0.5,
+            false => 0.5 - sum,
+        };
+        assert_eq!(true, diff < acceptable_delta);
+    }
+
+
+    #[test]
+    fn test_xsl_rr6432_mcg_real1_average100000() {
+        let mut p = PcgXslRr6432Mcg::with_seed(0x817236);
+        let mut sum = 0.0;
+        let max_count = 100000;
+        let acceptable_delta = 1.0 / 100.0;
+        for _ in 0..max_count {
+            sum += p.generate_real() / max_count as f64;
+        }
+        let diff = match sum > 0.5 {
+            true => sum - 0.5,
+            false => 0.5 - sum,
+        };
+        assert_eq!(true, diff < acceptable_delta);
+    }
+
+    #[test]
+    fn test_xsl_rr6432_mcg_real2_average100000() {
+        let mut p = PcgXslRr6432Mcg::with_seed(0x817236);
+        let mut sum = 0.0;
+        let max_count = 100000;
+        let acceptable_delta = 1.0 / 100.0;
+        for _ in 0..max_count {
+            sum += p.generate_real_closed() / max_count as f64;
+        }
+        let diff = match sum > 0.5 {
+            true => sum - 0.5,
+            false => 0.5 - sum,
+        };
+        assert_eq!(true, diff < acceptable_delta);
+    }
+    #[test]
+    fn test_xsl_rr6432_mcg_real_ranged_average100000() {
+        let mut p = PcgXslRr6432Mcg::with_seed(0x817236);
         let mut sum = 0.0;
         let max_count = 100000;
         let acceptable_delta = 2000.0 / 100.0;
