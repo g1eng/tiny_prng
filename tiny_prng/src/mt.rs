@@ -125,12 +125,11 @@ impl Mt19937 {
         mt
     }
 
-    generate_real32!(self);
+    generate_real32!();
 }
 
 #[cfg(test)]
 mod tests {
-    use crate::xorshift::{Xorshift1024star, Xorshift64};
     use super::*;
 
 

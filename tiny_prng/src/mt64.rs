@@ -120,7 +120,7 @@ impl Mt19937 {
         mt
     }
 
-    generate_real64!(self);
+    generate_real64!();
 }
 
 #[cfg(test)]

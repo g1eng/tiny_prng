@@ -36,7 +36,7 @@ impl Xorshift32 {
         self.state ^= self.state << 5;
         self.state.clone()
     }
-    generate_real32!(self);
+    generate_real32!();
 }
 
 pub struct Xorshift64 {
@@ -56,7 +56,7 @@ impl Xorshift64 {
         self.state ^= self.state << 17;
         self.state.clone()
     }
-    generate_real64!(self);
+    generate_real64!();
 }
 
 pub struct Xorshift128 {
@@ -91,7 +91,7 @@ impl Xorshift128 {
             | ((self.state[2].clone() as u128) << 32)
             | (self.state[3].clone() as u128)
     }
-    generate_real128!(self);
+    generate_real128!();
 }
 
 pub struct Xorshift64star {
@@ -111,7 +111,7 @@ impl Xorshift64star {
         self.state ^= self.state >> 27;
         self.state.wrapping_mul(0xa738f8117ca1d037)
     }
-    generate_real64!(self);
+    generate_real64!();
 }
 
 pub struct Xorshift1024star {
@@ -145,7 +145,7 @@ impl Xorshift1024star {
         self.state[index].wrapping_mul(0xaac17d8efa43cab7)
     }
 
-    generate_real64!(self);
+    generate_real64!();
 }
 mod tests {
     use super::*;

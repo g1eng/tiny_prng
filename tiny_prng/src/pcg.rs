@@ -60,7 +60,7 @@ impl PcgXshRr6432 {
         x ^= x >> 18;
         rotr32!((x>>27) as u32, count)
     }
-    generate_real32!(self);
+    generate_real32!();
 }
 
 
@@ -84,7 +84,7 @@ impl PcgXslRr6432Mcg {
         x ^= x >> 18;
         rotr32!((x>>27) as u32, count)
     }
-    generate_real32!(self);
+    generate_real32!();
 }
 
 
@@ -108,7 +108,7 @@ impl PcgXshRs6432 {
         x ^= x >> 22;
         (x >> count) as u32
     }
-    generate_real32!(self);
+    generate_real32!();
 }
 
 
@@ -133,7 +133,7 @@ impl PcgXslRr {
         x ^= x >> 64;
         rotr64!(x as u64, count)
     }
-    generate_real64!(self);
+    generate_real64!();
 }
 
 pub struct PcgXslRrMcg {
@@ -156,7 +156,7 @@ impl PcgXslRrMcg {
         x ^= x >> 64;
         rotr64!(x as u64, count)
     }
-    generate_real64!(self);
+    generate_real64!();
 }
 
 mod tests {
