@@ -1,4 +1,4 @@
-name: Wasm CI/CD
+name: Publish npm package
 
 on:
   push:
@@ -21,7 +21,7 @@ jobs:
       - name: Install wasm-pack
         run: sh -c "curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh"
       - name: build package
-        run: cd wasm_web && make clean && make build && cd pkg && npm pack
+        run: cd wasm_web && wasm-pack build && cd pkg && npm pack
       - name: Display Tag Information
         run: |
           echo "Triggered by tag: ${{ github.ref_name }}"
