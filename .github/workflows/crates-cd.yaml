@@ -15,10 +15,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Install nightly Rust
-      - run: rustup update nightly
+        run: rustup update nightly
       - name: set nightly Rust default
-      - run: rustup default nightly
-      - uses: actions/checkout@v4
+        run: rustup default nightly
       - name: build the package
         run: cd tiny_prng && cargo build --release
       - name: publish the package
