@@ -14,17 +14,18 @@ jobs:
       CARGO_TERM_COLOR: always
     steps:
       - uses: actions/checkout@v4
+      - name: Display Tag Information
+        run: |
+          echo "Triggered by tag: ${{ github.ref_name }}"
+          echo "On main branch: ${{ github.ref == 'refs/heads/main' }}"
       - name: Install nightly Rust
         run: rustup update nightly
       - name: set nightly Rust default
         run: rustup default nightly
       - name: Install wasm-pack
         run: sh -c "curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh"
-      - name: build package
-        run: cd wasm_web && wasm-pack build && cd pkg && npm pack
-      - name: Display Tag Information
-        run: |
-          echo "Triggered by tag: ${{ github.ref_name }}"
-          echo "On main branch: ${{ github.ref == 'refs/heads/main' }}"
-      - name: publish the package
-        run: echo //registry.npmjs.com/:_authToken=${{ secrets.NPM_CD_TOKEN }} > ~/.npmrc && npm publish
+      - name: build and publish the package
+        run:
+          - echo //registry.npmjs.com/:_authToken=${{ secrets.NPM_CD_TOKEN }} > ~/.npmrc
+          - cd wasm_web && wasm-pack build
+          - cd pkg && npm pack && npm publish
