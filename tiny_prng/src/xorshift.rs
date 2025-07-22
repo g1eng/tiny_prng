@@ -36,7 +36,7 @@ impl Xorshift32 {
         self.state ^= self.state << 5;
         self.state.clone()
     }
-    generate_real32!(self);
+    generate_real32!();
 }
 
 pub struct Xorshift64 {
@@ -56,7 +56,7 @@ impl Xorshift64 {
         self.state ^= self.state << 17;
         self.state.clone()
     }
-    generate_real64!(self);
+    generate_real64!();
 }
 
 pub struct Xorshift128 {
@@ -91,7 +91,7 @@ impl Xorshift128 {
             | ((self.state[2].clone() as u128) << 32)
             | (self.state[3].clone() as u128)
     }
-    generate_real128!(self);
+    generate_real128!();
 }
 
 pub struct Xorshift64star {
@@ -111,7 +111,7 @@ impl Xorshift64star {
         self.state ^= self.state >> 27;
         self.state.wrapping_mul(0xa738f8117ca1d037)
     }
-    generate_real64!(self);
+    generate_real64!();
 }
 
 pub struct Xorshift1024star {
@@ -145,53 +145,38 @@ impl Xorshift1024star {
         self.state[index].wrapping_mul(0xaac17d8efa43cab7)
     }
 
-    generate_real64!(self);
+    generate_real64!();
 }
 mod tests {
+    use crate::{generate_unit_test, gen_delta_rate, generate_unit_test_real_ranged, generate_unit_test_real1, generate_unit_test_real2};
     use super::*;
-    #[test]
-    fn test_xorshift32() {
-        let mut s = Xorshift32::with_seed(1337);
-        let mut sum = 0;
-        let acceptable_delta = u32::MAX / 100;
-        for _ in 0..10000 {
-            sum += s.generate() / 10000;
-        }
-        let delta = match sum > u32::MAX / 2 {
-            true => sum - u32::MAX / 2,
-            false => u32::MAX / 2 - sum,
-        };
-        assert!(delta < acceptable_delta);
-    }
 
-    #[test]
-    fn test_xorshift64() {
-        let mut s = Xorshift64::with_seed(1337);
-        let mut sum = 0;
-        let acceptable_delta = u64::MAX / 100;
-        for _ in 0..10000 {
-            sum += s.generate() / 10000;
-        }
-        let delta = match sum > u64::MAX / 2 {
-            true => sum - u64::MAX / 2,
-            false => u64::MAX / 2 - sum,
-        };
-        assert!(delta < acceptable_delta);
-    }
-    #[test]
-    fn test_xorshift128() {
-        let mut s = Xorshift128::with_seed(1337);
-        let mut sum = 0;
-        let acceptable_delta = u128::MAX / 100;
-        for _ in 0..10000 {
-            sum += s.generate() / 10000;
-        }
-        let delta = match sum > u128::MAX / 2 {
-            true => sum - u128::MAX / 2,
-            false => u128::MAX / 2 - sum,
-        };
-        assert!(delta < acceptable_delta);
-    }
+    const COUNT: usize = 100 * 1000;
+
+    //xorshift32
+    generate_unit_test!(Xorshift32, test_xorshift32_avr100k, u32, 0x1818729, COUNT);
+    generate_unit_test_real1!(Xorshift32, test_xorshift32_real1_avr100k, f64, 0x1818729, COUNT);
+    generate_unit_test_real2!(Xorshift32, test_xorshift32_real2_avr100k, f64, 0x1818729, COUNT);
+    generate_unit_test_real_ranged!(Xorshift32, test_xorshift32_real_ranged_avr100k, f64, 0x1818729, COUNT);
+
+    //xorshift64
+    generate_unit_test!(Xorshift64, test_xorshift64_avr100k, u64, 0x1818729, COUNT);
+    generate_unit_test_real1!(Xorshift64, test_xorshift64_real1_avr100k, f64, 0x1818729, COUNT);
+    generate_unit_test_real2!(Xorshift64, test_xorshift64_real2_avr100k, f64, 0x1818729, COUNT);
+    generate_unit_test_real_ranged!(Xorshift64, test_xorshift64_real_ranged_avr100k, f64, 0x1818729, COUNT);
+
+    //xorshift64star
+    generate_unit_test!(Xorshift64star, test_xorshift64star_avr100k, u64, 0x1818729, COUNT);
+    generate_unit_test_real1!(Xorshift64star, test_xorshift64star_real1_avr100k, f64, 0x1818729, COUNT);
+    generate_unit_test_real2!(Xorshift64star, test_xorshift64star_real2_avr100k, f64, 0x1818729, COUNT);
+    generate_unit_test_real_ranged!(Xorshift64star, test_xorshift64star_real_ranged_avr100k, f64, 0x1818729, COUNT);
+
+    //xorshift128
+    generate_unit_test!(Xorshift128, test_xorshift128_avr100k, u128, 0x1818729, COUNT);
+    generate_unit_test_real1!(Xorshift128, test_xorshift128_real1_avr100k, f64, 0x1818729, COUNT);
+    generate_unit_test_real2!(Xorshift128, test_xorshift128_real2_avr100k, f64, 0x1818729, COUNT);
+    generate_unit_test_real_ranged!(Xorshift128, test_xorshift128_real_ranged_avr100k, f64, 0x1818729, COUNT);
+
     #[test]
     fn test_xorshift64star() {
         let mut s = Xorshift64star::with_seed(1337);
@@ -222,82 +207,6 @@ mod tests {
         assert!(delta < acceptable_delta);
     }
 
-    #[test]
-    fn test_xorshift32_real1_average100000() {
-        let mut p = Xorshift32::with_seed(0x817236);
-        let mut sum = 0.0;
-        let max_count = 100000;
-        let acceptable_delta = 1.0 / 100.0;
-        for _ in 0..max_count {
-            sum += p.generate_real() / max_count as f64;
-        }
-        let diff = match sum > 0.5 {
-            true => sum - 0.5,
-            false => 0.5 - sum,
-        };
-        assert!(diff < acceptable_delta);
-
-        sum = 0.0;
-        for _ in 0..max_count {
-            sum += p.generate_real_closed() / max_count as f64;
-        }
-        let diff = match sum > 0.5 {
-            true => sum - 0.5,
-            false => 0.5 - sum,
-        };
-        assert!(diff < acceptable_delta);
-    }
-    #[test]
-    fn test_xorshift64_real1_average100000() {
-        let mut p = Xorshift64::with_seed(0x817236);
-        let mut sum = 0.0;
-        let max_count = 100000;
-        let acceptable_delta = 1.0 / 100.0;
-        for _ in 0..max_count {
-            sum += p.generate_real() / max_count as f64;
-        }
-        let diff = match sum > 0.5 {
-            true => sum - 0.5,
-            false => 0.5 - sum,
-        };
-        assert!(diff < acceptable_delta);
-
-        sum = 0.0;
-        for _ in 0..max_count {
-            sum += p.generate_real_closed() / max_count as f64;
-        }
-        let diff = match sum > 0.5 {
-            true => sum - 0.5,
-            false => 0.5 - sum,
-        };
-        assert!(diff < acceptable_delta);
-    }
-
-    #[test]
-    fn test_xorshift128_real1_average100000() {
-        let mut p = Xorshift128::with_seed(0x817236);
-        let mut sum = 0.0;
-        let max_count = 100000;
-        let acceptable_delta = 1.0 / 100.0;
-        for _ in 0..max_count {
-            sum += p.generate_real() / max_count as f64;
-        }
-        let diff = match sum > 0.5 {
-            true => sum - 0.5,
-            false => 0.5 - sum,
-        };
-        assert!(diff < acceptable_delta);
-
-        sum = 0.0;
-        for _ in 0..max_count {
-            sum += p.generate_real_closed() / max_count as f64;
-        }
-        let diff = match sum > 0.5 {
-            true => sum - 0.5,
-            false => 0.5 - sum,
-        };
-        assert!(diff < acceptable_delta);
-    }
     #[bench]
     fn bench_xorshift64_10mil(b: &mut test::Bencher) {
         b.iter(|| {
