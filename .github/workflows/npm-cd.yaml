@@ -25,7 +25,11 @@ jobs:
       - name: Install wasm-pack
         run: sh -c "curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh"
       - name: build and publish the package
-        run:
-          - echo //registry.npmjs.com/:_authToken=${{ secrets.NPM_CD_TOKEN }} > ~/.npmrc
-          - cd wasm_web && wasm-pack build
-          - cd pkg && npm pack && npm publish
+        run: |
+          set -e
+          echo //registry.npmjs.com/:_authToken=${{ secrets.NPM_CD_TOKEN }} > ~/.npmrc
+          cd wasm_web
+          wasm-pack build
+          cd pkg
+          npm pack
+          npm publish
