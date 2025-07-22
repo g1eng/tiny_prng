@@ -3,5 +3,3 @@
 version = 4
 
 [[package]]
-name = "tiny_prng"
-version = "0.1.0"
