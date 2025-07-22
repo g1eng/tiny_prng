@@ -1,10 +1,11 @@
-name: Wasm CI
+name: Wasm CI/CD
 
 on:
   push:
     branches:
       - main
-      - dev
+      - "fix/**"
+      - "feat/**"
 jobs:
   build-and-publish-npm-package:
     runs-on: ubuntu-latest
@@ -20,3 +21,11 @@ jobs:
         run: sh -c "curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh"
       - name: build package
         run: cd wasm_web && wasm-pack build && wasm-pack pack
+      - name: Display Tag Information
+        if: startsWith(github.ref, 'refs/tags/v')
+        run: |
+          echo "Triggered by tag: ${{ github.ref_name }}"
+          echo "On main branch: ${{ github.ref == 'refs/heads/main' }}"
+      - name: publish the package
+        if: startsWith(github.ref, 'refs/tags/v')
+        run: echo //registry.npmjs.com/:_authToken=${{ secrets.NPM_CD_TOKEN }} > ~/.npmrc && npm publish
