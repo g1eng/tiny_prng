@@ -18,7 +18,5 @@ jobs:
         run: rustup update nightly
       - name: set nightly Rust default
         run: rustup default nightly
-      - name: build the package
-        run: cd tiny_prng && cargo build --release
-      - name: publish the package
-        run: cargo publish --token=${{ secrets.CRATESIO_CD_TOKEN }}
+      - name: build and publish the package
+        run: cd tiny_prng && cargo build --release && cargo publish --token=${{ secrets.CRATESIO_CD_TOKEN }}
