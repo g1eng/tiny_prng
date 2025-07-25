@@ -17,7 +17,9 @@ jobs:
         run: rustup update nightly
       - name: set nightly Rust default
         run: rustup default nightly
-      - name: Install wasm-pack
-        run: sh -c "curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh"
+      - name: add wasm32-unknown-unknown target
+        run: rustup target add wasm32-unknown-unknown
+      - name: install wasm-bindgen-cli
+        run: cargo install wasm-bindgen-cli
       - name: build package
         run: cd wasm_web && make clean && make build

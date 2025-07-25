@@ -22,6 +22,10 @@ jobs:
         run: rustup update nightly
       - name: set nightly Rust default
         run: rustup default nightly
+      - name: add wasm32-unknown-unknown target
+        run: rustup target add wasm32-unknown-unknown
+      - name: install wasm-bindgen-cli
+        run: cargo install wasm-bindgen-cli
       - name: build and publish the package
         run: |
           set -e
