@@ -22,14 +22,16 @@ jobs:
         run: rustup update nightly
       - name: set nightly Rust default
         run: rustup default nightly
-      - name: Install wasm-pack
-        run: sh -c "curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh"
+      - name: add wasm32-unknown-unknown target
+        run: rustup target add wasm32-unknown-unknown
+      - name: install wasm-bindgen-cli
+        run: cargo install wasm-bindgen-cli
       - name: build and publish the package
         run: |
           set -e
-          echo //registry.npmjs.com/:_authToken=${{ secrets.NPM_CD_TOKEN }} > ~/.npmrc
+          echo //registry.npmjs.org/:_authToken=${{ secrets.NPM_CD_TOKEN }} > ~/.npmrc
           cd wasm_web
-          wasm-pack build
+          make build
           cd pkg
           npm pack
           npm publish

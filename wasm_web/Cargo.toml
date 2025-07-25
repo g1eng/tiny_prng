@@ -1,11 +1,11 @@
 [package]
 name = "tiny-prng-wasm"
-version = "0.2.4"
+version = "0.2.5"
 authors = ["Suzume Nomura <SuzuME@ea.g1e.org>"]
 description = "PRNG in the browser stack"
 edition = "2024"
 license = "MIT OR Apache-2.0"
-keywords = ["rand","prng","random-number-generator","wasm"]
+keywords = ["rand", "prng", "random-number-generator", "wasm"]
 
 [lib]
 crate-type = ["cdylib", "rlib"]
