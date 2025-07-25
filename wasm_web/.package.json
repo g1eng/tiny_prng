@@ -1,0 +1,28 @@
+{
+  "name": "tiny-prng-wasm",
+  "type": "module",
+  "collaborators": [
+    "Suzume Nomura <SuzuME@ea.g1e.org>"
+  ],
+  "description": "PRNG in the browser stack",
+  "version": "0.2.4",
+  "license": "MIT OR Apache-2.0",
+  "files": [
+    "tiny_prng_wasm_bg.wasm",
+    "tiny_prng_wasm.js",
+    "tiny_prng_wasm_bg.js",
+    "tiny_prng_wasm.d.ts"
+  ],
+  "main": "tiny_prng_wasm.js",
+  "types": "tiny_prng_wasm.d.ts",
+  "sideEffects": [
+    "./tiny_prng_wasm.js",
+    "./snippets/*"
+  ],
+  "keywords": [
+    "rand",
+    "prng",
+    "random-number-generator",
+    "wasm"
+  ]
+}
