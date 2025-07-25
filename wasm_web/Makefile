@@ -7,7 +7,9 @@ build:
 	&& wasm-bindgen --typescript --out-dir pkg  ../target/wasm32-unknown-unknown/release/tiny_prng_wasm.wasm \
 	&& test ! -d $(inp) || rm -rv $(inp); \
 	[ -d $(inp) ] || mkdir -vp $(inp) \
-	&& cp -rv .package.json pkg/package.json && cp -rv pkg/ $(inp);
+	&& cp .package.json pkg/package.json \
+	&& cp LICENSE_APACHE LICENSE_MIT README.md pkg/ \
+	&& cp -rv pkg/ $(inp);
 serve:
 	cd $(demodir) && yarn install && yarn start
 test:
